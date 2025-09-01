@@ -53,39 +53,83 @@ class ItemCard extends StatelessWidget {
                 top: -10,
                 child: Hero(
                   tag: "",
-                  child: Container(
-                    height: 180,
-                    width: 180,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.white.withOpacity(0.2),
-                          blurRadius: 20,
-                          spreadRadius: 5,
+                  child: LayoutBuilder(
+                    builder: (context, constraints) {
+                      final screenWidth = MediaQuery.of(context).size.width;
+                      final imageSize = screenWidth * 0.35 > 180
+                          ? 180.0
+                          : screenWidth * 0.35;
+                      return Container(
+                        height: imageSize,
+                        width: imageSize,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.white.withOpacity(0.2),
+                              blurRadius: 20,
+                              spreadRadius: 5,
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    child: Image.network(
-                      height: 180,
-                      width: double.infinity,
-                      '',
-                      fit: BoxFit.cover,
-                      errorBuilder: (context, error, stackTrace) {
-                        return Container(
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.1),
-                            shape: BoxShape.circle,
+                        child: ClipOval(
+                          child: Image.network(
+                            'https://www.pngplay.com/wp-content/uploads/11/Pikachu-Pokemon-Transparent-Images.png',
+                            height: imageSize,
+                            width: imageSize,
+                            fit: BoxFit.contain,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Container(
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withOpacity(0.1),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(
+                                  Icons.catching_pokemon,
+                                  color: Colors.white54,
+                                  size: 80,
+                                ),
+                              );
+                            },
                           ),
-                          child: const Icon(
-                            Icons.catching_pokemon,
-                            color: Colors.white54,
-                            size: 80,
-                          ),
-                        );
-                      },
-                    ),
+                        ),
+                      );
+                    },
                   ),
+                ),
+              ),
+
+              // Texto responsivo para el nombre
+              Positioned(
+                left: 16,
+                bottom: 20,
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final screenWidth = MediaQuery.of(context).size.width;
+                    double fontSize = screenWidth * 0.06;
+                    if (fontSize > 28) fontSize = 28;
+                    if (fontSize < 16) fontSize = 16;
+                    return SizedBox(
+                      width: screenWidth * 0.5,
+                      child: Text(
+                        'Pikachu',
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: TextStyle(
+                          color: Colors.white,
+                          fontWeight: FontWeight.bold,
+                          fontSize: fontSize,
+                          shadows: [
+                            Shadow(
+                              color: Colors.black.withOpacity(0.5),
+                              blurRadius: 4,
+                              offset: Offset(1, 2),
+                            ),
+                          ],
+                        ),
+                      ),
+                    );
+                  },
                 ),
               ),
             ],
