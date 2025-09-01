@@ -1,28 +1,23 @@
-import '../../domain/datasource/pokemon_datasource.dart';
-import '../../domain/entities/pokemon.dart';
-import '../../domain/repositories/pokemon_repositories.dart';
+import '../../domain/domain.dart';
 
 class PokemonRepositoryImpl implements PokemonRepository {
 
   final PokemonDataSource datasource;
 
-  PokemonRepositoryImpl({required this.datasource});
+  PokemonRepositoryImpl(this.datasource);
 
   @override
-  Future<List<Pokemon>> getPokemons() {
-    // TODO: implement getPokemons
-    throw UnimplementedError();
+  Future<List<Pokemon>> getPokemons({int limit = 10, int offset = 20}) {
+    return datasource.getPokemons(limit: limit, offset: offset);
   }
-
   @override
   Future<Pokemon> getPokemonById(int id) {
-    // TODO: implement getPokemonById
-    throw UnimplementedError();
+    return datasource.getPokemonById(id);
   }
 
   @override
   Future<List<Pokemon>> getPokemonsByType(String type) {
-    // TODO: implement getPokemonsByType
-    throw UnimplementedError();
+    return datasource.getPokemonsByType(type);
+   
   }
 }
