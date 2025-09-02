@@ -2,8 +2,12 @@ import 'dart:math' as math;
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 
+import '../../domain/domain.dart';
+
 class ItemCard extends StatelessWidget {
-  const ItemCard({super.key});
+  const ItemCard({super.key, required this.pokemon, required this.press});
+  final Pokemon pokemon;
+  final VoidCallback press;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +17,7 @@ class ItemCard extends StatelessWidget {
       from: random.nextInt(100) + 80,
       delay: Duration(milliseconds: random.nextInt(450) + 0),
       child: GestureDetector(
-        onTap: () {},
+        onTap: press,
         child: Container(
           height: 200,
           width: double.infinity,
@@ -49,17 +53,20 @@ class ItemCard extends StatelessWidget {
               ),
 
               Positioned(
-                right: -40,
-                top: -10,
-                child: Hero(
-                  tag: "",
-                  child: LayoutBuilder(
-                    builder: (context, constraints) {
-                      final screenWidth = MediaQuery.of(context).size.width;
-                      final imageSize = screenWidth * 0.35 > 180
-                          ? 180.0
-                          : screenWidth * 0.35;
-                      return Container(
+                right: -18,
+                top: 40,
+                child: LayoutBuilder(
+                  builder: (context, constraints) {
+                    final cardWidth = MediaQuery.of(context).size.width - 32;
+                    const cardHeight = 200.0;
+                    final maxImgWidth = cardWidth * 0.35;
+                    final maxImgHeight = cardHeight * 0.6;
+                    final imageSize = maxImgWidth < maxImgHeight
+                        ? maxImgWidth
+                        : maxImgHeight;
+                    return Hero(
+                      tag: "${pokemon.id}",
+                      child: Container(
                         height: imageSize,
                         width: imageSize,
                         decoration: BoxDecoration(
@@ -74,7 +81,7 @@ class ItemCard extends StatelessWidget {
                         ),
                         child: ClipOval(
                           child: Image.network(
-                            'https://www.pngplay.com/wp-content/uploads/11/Pikachu-Pokemon-Transparent-Images.png',
+                            pokemon.sprites.frontDefault,
                             height: imageSize,
                             width: imageSize,
                             fit: BoxFit.contain,
@@ -87,45 +94,11 @@ class ItemCard extends StatelessWidget {
                                 child: const Icon(
                                   Icons.catching_pokemon,
                                   color: Colors.white54,
-                                  size: 80,
+                                  size: 60,
                                 ),
                               );
                             },
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-
-              // Texto responsivo para el nombre
-              Positioned(
-                left: 16,
-                bottom: 20,
-                child: LayoutBuilder(
-                  builder: (context, constraints) {
-                    final screenWidth = MediaQuery.of(context).size.width;
-                    double fontSize = screenWidth * 0.06;
-                    if (fontSize > 28) fontSize = 28;
-                    if (fontSize < 16) fontSize = 16;
-                    return SizedBox(
-                      width: screenWidth * 0.5,
-                      child: Text(
-                        'Pikachu',
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: Colors.white,
-                          fontWeight: FontWeight.bold,
-                          fontSize: fontSize,
-                          shadows: [
-                            Shadow(
-                              color: Colors.black.withOpacity(0.5),
-                              blurRadius: 4,
-                              offset: Offset(1, 2),
-                            ),
-                          ],
                         ),
                       ),
                     );
@@ -147,33 +120,26 @@ class PokeBallPatternPainter extends CustomPainter {
     const radius = 40.0;
     const centerButtonRadius = 10.0;
     const innerButtonRadius = 6.0;
-
     final paintUpperHalf = Paint()
       ..color = Colors.red.withOpacity(0.15)
       ..style = PaintingStyle.fill;
-
     final paintLowerHalf = Paint()
       ..color = Colors.white.withOpacity(0.2)
       ..style = PaintingStyle.fill;
-
     final paintOutline = Paint()
       ..color = Colors.white.withOpacity(0.3)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
-
     final paintCenter = Paint()
       ..color = Colors.white.withOpacity(0.4)
       ..style = PaintingStyle.fill;
-
     final paintCenterOutline = Paint()
       ..color = Colors.grey.withOpacity(0.5)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 2;
-
     final paintInnerButton = Paint()
       ..color = Colors.black.withOpacity(0.2)
       ..style = PaintingStyle.fill;
-
     final upperHalf = Path()
       ..addArc(
         Rect.fromCircle(center: center, radius: radius),
@@ -182,35 +148,27 @@ class PokeBallPatternPainter extends CustomPainter {
       )
       ..close();
     canvas.drawPath(upperHalf, paintUpperHalf);
-
     final lowerHalf = Path()
       ..addArc(Rect.fromCircle(center: center, radius: radius), 0, math.pi)
       ..close();
     canvas.drawPath(lowerHalf, paintLowerHalf);
-
     canvas.drawLine(
       Offset(center.dx - radius, center.dy),
       Offset(center.dx + radius, center.dy),
       paintOutline,
     );
-
     canvas.drawCircle(center, radius, paintOutline);
-
     canvas.drawCircle(center, centerButtonRadius, paintCenter);
     canvas.drawCircle(center, centerButtonRadius, paintCenterOutline);
-
     canvas.drawCircle(center, innerButtonRadius, paintInnerButton);
-
     final shinePaint = Paint()
       ..color = Colors.white.withOpacity(0.6)
       ..style = PaintingStyle.fill;
 
     canvas.drawCircle(Offset(center.dx - 3, center.dy - 3), 2, shinePaint);
-
     final decorativePaint = Paint()
       ..color = Colors.white.withOpacity(0.15)
       ..style = PaintingStyle.fill;
-
     canvas.drawCircle(
       Offset(center.dx - radius * 0.5, center.dy - radius * 0.5),
       3,
@@ -222,23 +180,18 @@ class PokeBallPatternPainter extends CustomPainter {
       2,
       decorativePaint,
     );
-
     final center2 = Offset(size.width * 0.15, size.height * 0.85);
     const radius2 = 25.0;
-
     final paintSmallUpper = Paint()
       ..color = Colors.blue.withOpacity(0.1)
       ..style = PaintingStyle.fill;
-
     final paintSmallLower = Paint()
       ..color = Colors.white.withOpacity(0.15)
       ..style = PaintingStyle.fill;
-
     final paintSmallOutline = Paint()
       ..color = Colors.white.withOpacity(0.25)
       ..style = PaintingStyle.stroke
       ..strokeWidth = 1.5;
-
     final upperHalf2 = Path()
       ..addArc(
         Rect.fromCircle(center: center2, radius: radius2),

@@ -30,38 +30,67 @@ class _CustomBottomNavigatorState extends State<CustomBottomNavigator> {
 
   @override
   Widget build(BuildContext context) {
-    return SalomonBottomBar(
-      currentIndex: widget.currentIndex,
-      selectedItemColor: const Color(0xff6200ee),
-      unselectedItemColor: const Color(0xff757575),
-      onTap: (index) {
-        onItemTapped(context, index);
-      },
-
-      items: _navBarItems,
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 18, vertical: 10),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: const Color.fromARGB(255, 0, 0, 0), width: 0.5),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.10),
+            blurRadius: 16,
+            offset: const Offset(0, 4),
+          ),
+        ],
+        gradient: const LinearGradient(
+          colors: [Color.fromARGB(255, 0, 0, 0), Color.fromARGB(255, 0, 0, 0)],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+      ),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 4),
+        child: SalomonBottomBar(
+          backgroundColor: Colors.transparent,
+          currentIndex: widget.currentIndex,
+          selectedItemColor: const Color(0xff6200ee),
+          unselectedItemColor: const Color(0xff757575),
+          onTap: (index) {
+            onItemTapped(context, index);
+          },
+          itemPadding: const EdgeInsets.symmetric(horizontal: 18, vertical: 8),
+          items: _navBarItems,
+        ),
+      ),
     );
   }
 }
 
 final _navBarItems = [
   SalomonBottomBarItem(
-    icon: const Icon(Icons.catching_pokemon),
-    title: const Text("Pokémon"),
-    selectedColor: Colors.redAccent,
+    icon: const Icon(Icons.catching_pokemon, size: 28),
+    title: const Text("Pokémon", style: TextStyle(fontWeight: FontWeight.bold)),
+    selectedColor: Color(0xFFff5959),
   ),
   SalomonBottomBarItem(
-    icon: const Icon(Icons.pool_outlined),
-    title: const Text("Pokémon"),
-    selectedColor: Colors.redAccent,
+    icon: const Icon(Icons.auto_awesome, size: 26),
+    title: const Text(
+      "Explorar",
+      style: TextStyle(fontWeight: FontWeight.bold),
+    ),
+    selectedColor: Color(0xFF43CEA2),
   ),
   SalomonBottomBarItem(
-    icon: const Icon(Icons.favorite),
-    title: const Text("Favoritos"),
-    selectedColor: Colors.pink,
+    icon: const Icon(Icons.favorite, size: 26),
+    title: const Text(
+      "Favoritos",
+      style: TextStyle(fontWeight: FontWeight.bold),
+    ),
+    selectedColor: Color(0xFFf857a6),
   ),
-  SalomonBottomBarItem(
-    icon: const Icon(Icons.person),
-    title: const Text("Entrenador"),
-    selectedColor: Colors.blue,
-  ),
+  // SalomonBottomBarItem(
+  //   icon: const Icon(Icons.person, size: 26),
+  //   title: const Text("Perfil", style: TextStyle(fontWeight: FontWeight.bold)),
+  //   selectedColor: Color(0xFF185A9D),
+  // ),
 ];
