@@ -1,0 +1,39 @@
+import 'package:flutter/material.dart';
+import 'package:flutter_pokemon_app/domain/entities/pokemon.dart';
+import 'package:flutter_svg/svg.dart';
+
+
+import '../../config/constants/constants.dart';
+
+class ProductTitleWithImage extends StatelessWidget {
+  final String? customImageUrl;
+  const ProductTitleWithImage({super.key, required this.pokemon, this.customImageUrl});
+
+  final Pokemon pokemon;
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: <Widget>[
+          Row(
+            children: <Widget>[
+              Expanded(
+                child: Hero(
+                  tag: "${pokemon.id}",
+                  child: SvgPicture.network(
+                    pokemon.sprites.other.dreamWorld.frontDefault,
+                    fit: BoxFit.contain,
+                    errorBuilder: (context, error, stackTrace) =>
+                        const Center(child: Icon(Icons.error)),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+}

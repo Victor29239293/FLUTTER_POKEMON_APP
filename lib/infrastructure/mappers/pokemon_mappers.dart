@@ -1,5 +1,5 @@
 import '../../domain/domain.dart';
-import '../infrastructure.dart';
+import '../infrastructure.dart' hide DreamWorld, Other, Home, OfficialArtwork;
 
 class PokemonMapper {
   static Pokemon toEntity(PokemonResult pokemon) => Pokemon(
@@ -32,7 +32,6 @@ class PokemonMapper {
     isHidden: ability.isHidden,
     slot: ability.slot,
   );
-
 
   static Stat toEntityStat(StatResult stat) => Stat(
     baseStat: stat.baseStat,
@@ -78,7 +77,36 @@ class PokemonMapper {
     backShiny: sprites.backShiny,
     frontDefault: sprites.frontDefault,
     frontShiny: sprites.frontShiny,
+    other: toEntityOther(sprites.other),
   );
   static Type toEntityType(TypeResult type) =>
       Type(slot: type.slot, type: toEntitySpecies(type.type));
+
+  static Other toEntityOther(OtherResult other) => Other(
+    dreamWorld: toEntityDreamWorld(other.dreamWorld),
+    // home: toEntityHome(other.home as Home),
+    // officialArtwork: toEntityOfficialArtwork(
+    //   other.officialArtwork as OfficialArtwork,
+    // ),
+    // showdown: toEntitySprites(other.showdown),
+  );
+
+  static DreamWorld toEntityDreamWorld(DreamWorldResult dreamWorld) => DreamWorld(
+    frontDefault: dreamWorld.frontDefault,
+    frontFemale: dreamWorld.frontFemale,
+  );
+
+  // static Home toEntityHome(Home home) => Home(
+  //   frontDefault: home.frontDefault,
+  //   frontFemale: home.frontFemale,
+  //   frontShiny: home.frontShiny,
+  //   frontShinyFemale: home.frontShinyFemale,
+  // );
+
+  // static OfficialArtwork toEntityOfficialArtwork(
+  //   OfficialArtwork officialArtwork,
+  // ) => OfficialArtwork(
+  //   frontDefault: officialArtwork.frontDefault,
+  //   frontShiny: officialArtwork.frontShiny,
+  // );
 }

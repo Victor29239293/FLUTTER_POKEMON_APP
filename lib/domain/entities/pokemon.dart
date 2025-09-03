@@ -111,7 +111,7 @@ class Sprites {
   final dynamic frontFemale;
   final String frontShiny;
   final dynamic frontShinyFemale;
-  final Other? other;
+  final Other other;
   final Versions? versions;
   final Sprites? animated;
 
@@ -124,7 +124,7 @@ class Sprites {
     this.frontFemale,
     required this.frontShiny,
     this.frontShinyFemale,
-    this.other,
+    required this.other,
     this.versions,
     this.animated,
   });
@@ -132,15 +132,15 @@ class Sprites {
 
 class Other {
   final DreamWorld dreamWorld;
-  final Home home;
-  final OfficialArtwork officialArtwork;
-  final Sprites showdown;
+  final Home? home;
+  final OfficialArtwork? officialArtwork;
+  final Sprites? showdown;
 
   Other({
     required this.dreamWorld,
-    required this.home,
-    required this.officialArtwork,
-    required this.showdown,
+    this.home,
+    this.officialArtwork,
+    this.showdown,
   });
 }
 
@@ -190,4 +190,29 @@ class OfficialArtwork {
   final String frontShiny;
 
   OfficialArtwork({required this.frontDefault, required this.frontShiny});
+}
+
+
+class Showdown {
+  final String backDefault;
+  final dynamic backFemale;
+  final String backShiny;
+  final dynamic backShinyFemale;
+  final String frontDefault;
+  final dynamic frontFemale;
+  final String frontShiny;
+  final dynamic frontShinyFemale;
+ 
+
+  Showdown({
+    required this.backDefault,
+    this.backFemale,
+    required this.backShiny,
+    this.backShinyFemale,
+    required this.frontDefault,
+    this.frontFemale,
+    required this.frontShiny,
+    this.frontShinyFemale,
+    
+  });
 }

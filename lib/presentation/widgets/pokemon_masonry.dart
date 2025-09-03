@@ -1,12 +1,10 @@
-
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemon_app/domain/entities/pokemon.dart';
+import 'package:flutter_pokemon_app/presentation/screens/detail_screen.dart';
 import 'package:flutter_pokemon_app/presentation/widgets/item_card.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
-class  PokemonMasonry extends StatefulWidget {
+class PokemonMasonry extends StatefulWidget {
   final List<Pokemon> pokemones;
   final VoidCallback? loadNextPage;
   const PokemonMasonry({super.key, required this.pokemones, this.loadNextPage});
@@ -52,12 +50,21 @@ class _PokemonMasonryState extends State<PokemonMasonry> {
               child: Column(
                 children: [
                   SizedBox(height: 30),
-                  ItemCard(pokemon: widget.pokemones[index], press: () {  },),
+                  ItemCard(pokemon: widget.pokemones[index], press: () {}),
                 ],
               ),
             );
           }
-          return ItemCard(pokemon: widget.pokemones[index], press: () {  },);
+          return ItemCard(
+            pokemon: widget.pokemones[index],
+            press: () => Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) =>
+                    DetailsScreen(pokemon: widget.pokemones[index]),
+              ),
+            ),
+          );
         },
       ),
     );
