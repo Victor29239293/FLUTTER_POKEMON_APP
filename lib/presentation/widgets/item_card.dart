@@ -2,7 +2,6 @@ import 'dart:math' as math;
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-//import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../domain/domain.dart';
 
@@ -55,14 +54,14 @@ class ItemCard extends StatelessWidget {
               ),
 
               Positioned(
-                right: -18,
-                top: 40,
+                right: 0,
+                top: 50,
                 child: LayoutBuilder(
                   builder: (context, constraints) {
                     final cardWidth = MediaQuery.of(context).size.width - 32;
                     const cardHeight = 200.0;
-                    final maxImgWidth = cardWidth * 0.35;
-                    final maxImgHeight = cardHeight * 0.6;
+                    final maxImgWidth = cardWidth * 0.30; 
+                    final maxImgHeight = cardHeight * 0.45; 
                     final imageSize = maxImgWidth < maxImgHeight
                         ? maxImgWidth
                         : maxImgHeight;

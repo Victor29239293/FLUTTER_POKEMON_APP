@@ -84,24 +84,30 @@ class PokemonMapper {
 
   static Other toEntityOther(OtherResult other) => Other(
     dreamWorld: toEntityDreamWorld(other.dreamWorld),
-    // home: toEntityHome(other.home as Home),
-    // officialArtwork: toEntityOfficialArtwork(
-    //   other.officialArtwork as OfficialArtwork,
-    // ),
-    // showdown: toEntitySprites(other.showdown),
+    home: other.home != null ? toEntityHome(other.home!) : null,
+
+    showdown: other.showdown != null ? toEntityShowdown(other.showdown!) : null,
   );
 
-  static DreamWorld toEntityDreamWorld(DreamWorldResult dreamWorld) => DreamWorld(
-    frontDefault: dreamWorld.frontDefault,
-    frontFemale: dreamWorld.frontFemale,
+  static Showdown toEntityShowdown(ShowdownResult showdown) => Showdown(
+    backDefault: showdown.backDefault,
+    backShiny: showdown.backShiny,
+    frontDefault: showdown.frontDefault,
+    frontShiny: showdown.frontShiny,
   );
 
-  // static Home toEntityHome(Home home) => Home(
-  //   frontDefault: home.frontDefault,
-  //   frontFemale: home.frontFemale,
-  //   frontShiny: home.frontShiny,
-  //   frontShinyFemale: home.frontShinyFemale,
-  // );
+  static DreamWorld toEntityDreamWorld(DreamWorldResult dreamWorld) =>
+      DreamWorld(
+        frontDefault: dreamWorld.frontDefault,
+        frontFemale: dreamWorld.frontFemale,
+      );
+
+  static Home toEntityHome(HomeResult home) => Home(
+    frontDefault: home.frontDefault,
+    frontFemale: home.frontFemale,
+    frontShiny: home.frontShiny,
+    frontShinyFemale: home.frontShinyFemale,
+  );
 
   // static OfficialArtwork toEntityOfficialArtwork(
   //   OfficialArtwork officialArtwork,

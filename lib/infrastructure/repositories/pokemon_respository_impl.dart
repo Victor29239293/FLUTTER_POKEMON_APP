@@ -20,4 +20,8 @@ class PokemonRepositoryImpl implements PokemonRepository {
     return datasource.getPokemonsByType(type);
    
   }
+  @override
+  Future<List<Pokemon>> searchPokemons(String query) {
+    return datasource.searchPokemons(query);
+  }
 }

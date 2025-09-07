@@ -44,17 +44,6 @@ class _PokemonMasonryState extends State<PokemonMasonry> {
         itemCount: widget.pokemones.length,
         crossAxisCount: 3,
         itemBuilder: (context, index) {
-          if (index == 1) {
-            return SizedBox(
-              width: double.infinity,
-              child: Column(
-                children: [
-                  SizedBox(height: 30),
-                  ItemCard(pokemon: widget.pokemones[index], press: () {}),
-                ],
-              ),
-            );
-          }
           return ItemCard(
             pokemon: widget.pokemones[index],
             press: () => Navigator.push(

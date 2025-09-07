@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_pokemon_app/config/constants/constants.dart';
 
 import 'package:flutter_pokemon_app/presentation/widgets/pokemon_masonry.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -35,7 +36,6 @@ class HomeViewState extends ConsumerState<HomeView>
     }
   }
 
-
   @override
   Widget build(BuildContext context) {
     super.build(context);
@@ -46,6 +46,14 @@ class HomeViewState extends ConsumerState<HomeView>
     }
     return Scaffold(
       appBar: AppBar(
+        leading: IconButton(
+          icon: const Icon(
+            Icons.catching_pokemon_rounded,
+            color: Color.fromARGB(255, 255, 0, 0),
+            size: 40,
+          ),
+          onPressed: () {},
+        ),
         backgroundColor: Theme.of(context).scaffoldBackgroundColor,
         elevation: 0,
         title: Text(
@@ -57,17 +65,60 @@ class HomeViewState extends ConsumerState<HomeView>
           ),
         ),
         centerTitle: true,
-        actions: [
-          IconButton(
-            icon: const Icon(Icons.catching_pokemon_rounded,
-                color: Colors.black),
-            onPressed: () {},
+      ),
+
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            child: Material(
+              elevation: 3,
+              borderRadius: BorderRadius.circular(24),
+              child: TextField(
+                onChanged: (value) {
+                  ref
+                      .read(pokemonProvider.notifier)
+                      .searchPokemonsMethod(value);
+                },
+                decoration: InputDecoration(
+                  contentPadding: const EdgeInsets.symmetric(vertical: 16),
+                  hintText: "Buscar Pokémon...",
+                  hintStyle: GoogleFonts.poppins(
+                    color: Colors.grey.shade500,
+                    fontSize: 16,
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                  prefixIcon: Icon(
+                    Icons.search_rounded,
+                    color: Colors.redAccent,
+                    size: 28,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(24),
+                    borderSide: BorderSide(color: Colors.transparent),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(24),
+                    borderSide: BorderSide(color: Colors.redAccent, width: 2),
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(24),
+                    borderSide: BorderSide(color: Colors.transparent),
+                  ),
+                ),
+                style: GoogleFonts.poppins(color: Colors.black87, fontSize: 16),
+              ),
+            ),
+          ),
+          const SizedBox(height: kDefaultPaddin / 2),
+          Expanded(
+            child: PokemonMasonry(
+              pokemones: pokemons,
+              loadNextPage: loadNextPage,
+            ),
           ),
         ],
-      ),
-      body: PokemonMasonry(
-        pokemones: pokemons,
-        loadNextPage: loadNextPage,
       ),
     );
   }
@@ -75,192 +126,3 @@ class HomeViewState extends ConsumerState<HomeView>
   @override
   bool get wantKeepAlive => true;
 }
-
-// class _CategoriasCustom extends StatelessWidget {
-//   const _CategoriasCustom();
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SliverToBoxAdapter(
-//       child: Padding(
-//         padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-//         child: Row(
-//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
-//           children: [
-//             SizedBox(
-//               width: 200,
-//               child: Center(
-//                 child: PopupMenuButton<String>(
-//                   color: Color(0xf0333333),
-//                   onSelected: (value) {
-//                     // Aquí puedes manejar la selección de la categoría
-//                   },
-//                   itemBuilder: (context) => [
-//                     PopupMenuItem(
-//                       value: 'todos',
-//                       child: Text(
-//                         'Todos los tipos',
-//                         style: GoogleFonts.poppins(color: Colors.white),
-//                       ),
-//                     ),
-//                     PopupMenuItem(
-//                       value: 'fuego',
-//                       child: Text(
-//                         'Fuego',
-//                         style: GoogleFonts.poppins(color: Colors.white),
-//                       ),
-//                     ),
-//                     PopupMenuItem(
-//                       value: 'agua',
-//                       child: Text(
-//                         'Agua',
-//                         style: GoogleFonts.poppins(color: Colors.white),
-//                       ),
-//                     ),
-//                     PopupMenuItem(
-//                       value: 'planta',
-//                       child: Text(
-//                         'Planta',
-//                         style: GoogleFonts.poppins(color: Colors.white),
-//                       ),
-//                     ),
-//                     // Agrega más categorías según tu necesidad
-//                   ],
-//                   child: Container(
-//                     decoration: BoxDecoration(
-//                       color: Color(0xf0333333),
-//                       borderRadius: BorderRadius.circular(20),
-//                     ),
-//                     padding: const EdgeInsets.symmetric(
-//                       horizontal: 20,
-//                       vertical: 10,
-//                     ),
-//                     child: Row(
-//                       mainAxisAlignment: MainAxisAlignment.center,
-//                       children: [
-//                         Text(
-//                           'Todos los tipos',
-//                           style: GoogleFonts.poppins(color: Colors.white),
-//                         ),
-//                         SizedBox(width: 10),
-//                         Icon(
-//                           Icons.keyboard_arrow_down_rounded,
-//                           color: Colors.white,
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//             ),
-//             SizedBox(width: 15),
-//             SizedBox(
-//               width: 150,
-//               child: Center(
-//                 child: PopupMenuButton<String>(
-//                   color: Color(0xf0333333),
-//                   onSelected: (value) {
-//                     // Aquí puedes manejar la selección del orden
-//                   },
-//                   itemBuilder: (context) => [
-//                     PopupMenuItem(
-//                       value: 'az',
-//                       child: Text(
-//                         'A-Z',
-//                         style: GoogleFonts.poppins(color: Colors.white),
-//                       ),
-//                     ),
-//                     PopupMenuItem(
-//                       value: 'za',
-//                       child: Text(
-//                         'Z-A',
-//                         style: GoogleFonts.poppins(color: Colors.white),
-//                       ),
-//                     ),
-//                     PopupMenuItem(
-//                       value: 'num',
-//                       child: Text(
-//                         'Por número',
-//                         style: GoogleFonts.poppins(color: Colors.white),
-//                       ),
-//                     ),
-//                     // Agrega más opciones de orden si lo deseas
-//                   ],
-//                   child: Container(
-//                     decoration: BoxDecoration(
-//                       color: Color(0xf0333333),
-//                       borderRadius: BorderRadius.circular(20),
-//                     ),
-//                     padding: const EdgeInsets.symmetric(
-//                       horizontal: 20,
-//                       vertical: 10,
-//                     ),
-//                     child: Row(
-//                       mainAxisAlignment: MainAxisAlignment.center,
-//                       children: [
-//                         Text(
-//                           'A-z',
-//                           style: GoogleFonts.poppins(color: Colors.white),
-//                         ),
-//                         SizedBox(width: 10),
-//                         Icon(
-//                           Icons.keyboard_arrow_down_rounded,
-//                           color: Colors.white,
-//                         ),
-//                       ],
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
-
-// class CustomSliverAppbar extends StatelessWidget {
-//   const CustomSliverAppbar({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return SliverAppBar(
-//       floating: true,
-//       backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-//       elevation: 0,
-//       flexibleSpace: FlexibleSpaceBar(
-//         titlePadding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
-//         title: SizedBox(
-//           width: double.infinity,
-//           child: TextField(
-//             decoration: InputDecoration(
-//               hintText: "Procurar Pokemon...",
-//               hintStyle: GoogleFonts.poppins(color: Colors.grey.shade600),
-//               filled: true,
-//               fillColor: Colors.white,
-//               prefixIcon: Icon(
-//                 Icons.search_rounded,
-//                 color: Colors.grey.shade600,
-//                 size: 25,
-//               ),
-//               enabledBorder: OutlineInputBorder(
-//                 borderRadius: BorderRadius.circular(20),
-//                 borderSide: BorderSide(color: Colors.grey.shade400, width: 1),
-//               ),
-//               focusedBorder: OutlineInputBorder(
-//                 borderRadius: BorderRadius.circular(20),
-//                 borderSide: BorderSide(color: Colors.grey.shade400, width: 2),
-//               ),
-//               border: OutlineInputBorder(
-//                 borderRadius: BorderRadius.circular(20),
-//                 borderSide: BorderSide(color: Colors.grey.shade400, width: 1),
-//               ),
-//             ),
-//             style: TextStyle(color: Colors.grey.shade600),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-// }

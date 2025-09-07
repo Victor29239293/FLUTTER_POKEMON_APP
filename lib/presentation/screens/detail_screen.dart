@@ -3,6 +3,8 @@ import 'package:flutter_pokemon_app/config/constants/constants.dart';
 import 'package:flutter_pokemon_app/presentation/widgets/pokemon_description.dart';
 import 'package:flutter_pokemon_app/presentation/widgets/pokemon_title_image.dart';
 import 'package:flutter_pokemon_app/presentation/widgets/pokemon_type.dart';
+import 'package:flutter_pokemon_app/utils/pokemon_type_utilis.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 // // import 'package:flutter_svg/svg.dart';
 
 // import '../../config/config.dart';
@@ -24,39 +26,17 @@ class _DetailsScreenState extends State<DetailsScreen> {
   void initState() {
     super.initState();
     // Inicializar con la imagen frontal normal
-    selectedImageUrl = widget.pokemon.sprites.frontDefault;
+    selectedImageUrl = widget.pokemon.sprites.other.dreamWorld.frontDefault;
   }
 
-  Color getTypeColor(String type) {
-    switch (type.toLowerCase()) {
-      case 'grass':
-        return Color(0xFF4CAF50);
-      case 'fire':
-        return Color(0xFFFF5722);
-      case 'water':
-        return Color(0xFF2196F3);
-      case 'bug':
-        return Color(0xFF8BC34A);
-      default:
-        return Color(0xFF4CAF50);
-    }
-  }
-
-  // void _onVersionSelected(String imageUrl) {
-  //   setState(() {
-  //     selectedImageUrl = imageUrl;
-  //   });
-  // }
-
-  @override
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
 
     return Scaffold(
-      // each product have a color
       backgroundColor: getTypeColor(
         widget.pokemon.types[0].type.name,
       ).withOpacity(0.8),
+
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -159,9 +139,16 @@ class _DetailsScreenState extends State<DetailsScreen> {
   Widget _buildPokemonVersions() {
     final sprites = widget.pokemon.sprites;
     final List<_VersionImage> versions = [
-      _VersionImage(label: 'Normal', url: sprites.frontDefault),
-      if (sprites.frontShiny.isNotEmpty)
-        _VersionImage(label: 'Shiny', url: sprites.frontShiny),
+      _VersionImage(
+        label: 'Dream World',
+        url: sprites.other.dreamWorld.frontDefault,
+      ),
+
+      // if (sprites.frontShiny.isNotEmpty)
+      //   _VersionImage(label: 'Shiny', url: sprites.frontShiny),
+      if (sprites.other.showdown?.frontDefault != null &&
+          sprites.other.showdown!.frontDefault.isNotEmpty)
+        _VersionImage(label: 'Gif', url: sprites.other.showdown!.frontDefault),
     ];
 
     return Row(
@@ -189,17 +176,30 @@ class _DetailsScreenState extends State<DetailsScreen> {
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Image.network(
-                  version.url,
-                  height: 48,
-                  width: 48,
-                  fit: BoxFit.contain,
-                  errorBuilder: (context, error, stackTrace) => const Icon(
-                    Icons.catching_pokemon,
-                    size: 32,
-                    color: Colors.grey,
-                  ),
-                ),
+                version.url.endsWith('.svg')
+                    ? SvgPicture.network(
+                        version.url,
+                        height: 40,
+                        width: 40,
+                        fit: BoxFit.cover,
+                        placeholderBuilder: (context) => const Icon(
+                          Icons.catching_pokemon,
+                          size: 32,
+                          color: Colors.grey,
+                        ),
+                      )
+                    : Image.network(
+                        version.url,
+                        height: 40,
+                        width: 40,
+                        fit: BoxFit.cover,
+                        errorBuilder: (context, error, stackTrace) =>
+                            const Icon(
+                              Icons.catching_pokemon,
+                              size: 32,
+                              color: Colors.grey,
+                            ),
+                      ),
                 const SizedBox(height: 4),
                 Text(
                   version.label,

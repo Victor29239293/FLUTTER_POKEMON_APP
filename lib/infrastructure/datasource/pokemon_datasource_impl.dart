@@ -2,7 +2,6 @@ import 'package:dio/dio.dart';
 import '../../domain/domain.dart';
 import '../infrastructure.dart';
 
-
 class PokemonDatasourceImpl implements PokemonDataSource {
   final dio = Dio(
     BaseOptions(
@@ -54,5 +53,43 @@ class PokemonDatasourceImpl implements PokemonDataSource {
   Future<List<Pokemon>> getPokemonsByType(String type) {
     // TODO: implement getPokemonsByType
     throw UnimplementedError();
+  }
+
+  @override
+  Future<List<Pokemon>> searchPokemons(String query) async {
+    
+    final response = await dio.get('pokemon', queryParameters: {'limit': 100});
+    final results = response.data['results'] as List;
+
+  
+    final filtered = results.where((item) {
+      final name = item['name'] as String;
+      return name.toLowerCase().contains(query.toLowerCase());
+    }).toList();
+
+    const int batchSize = 5;
+    const Duration delay = Duration(milliseconds: 500);
+    List<Pokemon> pokemones = [];
+
+    for (int i = 0; i < filtered.length; i += batchSize) {
+      final batch = filtered.skip(i).take(batchSize).toList();
+      final futures = batch.map((item) {
+        final url = item['url'] as String;
+        return dio.get(url);
+      }).toList();
+
+      final responses = await Future.wait(futures);
+      pokemones.addAll(
+        responses.map(
+          (res) => PokemonMapper.toEntity(PokemonResult.fromJson(res.data)),
+        ),
+      );
+
+      if (i + batchSize < filtered.length) {
+        await Future.delayed(delay);
+      }
+    }
+
+    return pokemones;
   }
 }

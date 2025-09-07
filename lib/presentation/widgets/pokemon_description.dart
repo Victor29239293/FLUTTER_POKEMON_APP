@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemon_app/domain/entities/pokemon.dart';
 
-//import '../../config/config.dart';
-
-
 class PokemonDescription extends StatelessWidget {
   const PokemonDescription({super.key, required this.pokemon});
 

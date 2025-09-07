@@ -88,9 +88,5 @@ final _navBarItems = [
     ),
     selectedColor: Color(0xFFf857a6),
   ),
-  // SalomonBottomBarItem(
-  //   icon: const Icon(Icons.person, size: 26),
-  //   title: const Text("Perfil", style: TextStyle(fontWeight: FontWeight.bold)),
-  //   selectedColor: Color(0xFF185A9D),
-  // ),
+
 ];

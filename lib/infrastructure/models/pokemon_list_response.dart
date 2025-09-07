@@ -363,7 +363,7 @@ class Other {
   final DreamWorld dreamWorld;
   final Home home;
   final OfficialArtwork officialArtwork;
-  final SpritesResult showdown;
+  final ShowdownResult showdown;
 
   Other({
     required this.dreamWorld,
@@ -376,7 +376,7 @@ class Other {
     dreamWorld: DreamWorld.fromJson(json["dream_world"]),
     home: Home.fromJson(json["home"]),
     officialArtwork: OfficialArtwork.fromJson(json["official-artwork"]),
-    showdown: SpritesResult.fromJson(json["showdown"]),
+    showdown: ShowdownResult.fromJson(json["showdown"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -677,6 +677,34 @@ class Home {
   };
 }
 
+class HomeResult {
+  final String frontDefault;
+  final dynamic frontFemale;
+  final String frontShiny;
+  final dynamic frontShinyFemale;
+
+  HomeResult({
+    required this.frontDefault,
+    required this.frontFemale,
+    required this.frontShiny,
+    required this.frontShinyFemale,
+  });
+
+  factory HomeResult.fromJson(Map<String, dynamic> json) => HomeResult(
+    frontDefault: json["front_default"],
+    frontFemale: json["front_female"],
+    frontShiny: json["front_shiny"],
+    frontShinyFemale: json["front_shiny_female"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "front_default": frontDefault,
+    "front_female": frontFemale,
+    "front_shiny": frontShiny,
+    "front_shiny_female": frontShinyFemale,
+  };
+}
+
 class GenerationVii {
   final DreamWorld icons;
   final Home ultraSunUltraMoon;
@@ -780,32 +808,58 @@ class TypeResult {
 
 class OtherResult {
   final DreamWorldResult dreamWorld;
-  final Home? home;
+  final HomeResult? home;
   final OfficialArtwork? officialArtwork;
-  final SpritesResult? showdown;
+  final ShowdownResult? showdown; 
 
   OtherResult({
     required this.dreamWorld,
     this.home,
     this.officialArtwork,
-    this.showdown,
+    required this.showdown, 
   });
 
   factory OtherResult.fromJson(Map<String, dynamic> json) => OtherResult(
     dreamWorld: DreamWorldResult.fromJson(json["dream_world"]),
-    home: json["home"] == null ? null : Home.fromJson(json["home"]),
+    home: json["home"] == null ? null : HomeResult.fromJson(json["home"]),
     officialArtwork: json["official-artwork"] == null
         ? null
         : OfficialArtwork.fromJson(json["official-artwork"]),
-    showdown: json["showdown"] == null
-        ? null
-        : SpritesResult.fromJson(json["showdown"]),
+    showdown: json["showdown"] == null ? null : ShowdownResult.fromJson(json["showdown"]),
   );
 
   Map<String, dynamic> toJson() => {
     "dream_world": dreamWorld.toJson(),
     "home": home?.toJson(),
     "official-artwork": officialArtwork?.toJson(),
-    "showdown": showdown?.toJson(),
+    "showdown": showdown?.toJson(), // Opcional
+  };
+}
+
+class ShowdownResult {
+  final String backDefault;
+  final String backShiny;
+  final String frontDefault;
+  final String frontShiny;
+
+  ShowdownResult({
+    required this.backDefault,
+    required this.backShiny,
+    required this.frontDefault,
+    required this.frontShiny,
+  });
+
+  factory ShowdownResult.fromJson(Map<String, dynamic> json) => ShowdownResult(
+    backDefault: json["back_default"],
+    backShiny: json["back_shiny"],
+    frontDefault: json["front_default"],
+    frontShiny: json["front_shiny"],
+  );
+
+  Map<String, dynamic> toJson() => {
+    "back_default": backDefault,
+    "back_shiny": backShiny,
+    "front_default": frontDefault,
+    "front_shiny": frontShiny,
   };
 }

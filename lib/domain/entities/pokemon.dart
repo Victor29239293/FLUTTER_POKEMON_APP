@@ -134,13 +134,13 @@ class Other {
   final DreamWorld dreamWorld;
   final Home? home;
   final OfficialArtwork? officialArtwork;
-  final Sprites? showdown;
+  final Showdown? showdown;
 
   Other({
     required this.dreamWorld,
     this.home,
     this.officialArtwork,
-    this.showdown,
+     this.showdown,
   });
 }
 
