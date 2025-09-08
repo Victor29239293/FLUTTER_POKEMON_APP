@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemon_app/config/constants/constants.dart';
+//   import 'package:flutter_pokemon_app/presentation/widgets/pokeball_loader.dart';
+// import 'package:flutter_pokemon_app/presentation/widgets/pokeball_loader.dart';
 
 import 'package:flutter_pokemon_app/presentation/widgets/pokemon_masonry.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -40,10 +42,10 @@ class HomeViewState extends ConsumerState<HomeView>
   Widget build(BuildContext context) {
     super.build(context);
     final pokemons = ref.watch(pokemonProvider);
-    final isLoading = ref.watch(pokemonProvider.notifier).isLoading;
-    if (isLoading) {
-      return const Scaffold(body: Center(child: CircularProgressIndicator()));
-    }
+    final isLoadings = ref.watch(pokemonProvider.notifier).isLoading;
+    // if (isLoading) {
+    //   return const Scaffold(body: Center(child: PokeballLoader()));
+    // }
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -69,56 +71,59 @@ class HomeViewState extends ConsumerState<HomeView>
 
       body: Column(
         children: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-            child: Material(
-              elevation: 3,
-              borderRadius: BorderRadius.circular(24),
-              child: TextField(
-                onChanged: (value) {
-                  ref
-                      .read(pokemonProvider.notifier)
-                      .searchPokemonsMethod(value);
-                },
-                decoration: InputDecoration(
-                  contentPadding: const EdgeInsets.symmetric(vertical: 16),
-                  hintText: "Buscar Pokémon...",
-                  hintStyle: GoogleFonts.poppins(
-                    color: Colors.grey.shade500,
-                    fontSize: 16,
-                  ),
-                  filled: true,
-                  fillColor: Colors.white,
-                  prefixIcon: Icon(
-                    Icons.search_rounded,
-                    color: Colors.redAccent,
-                    size: 28,
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(24),
-                    borderSide: BorderSide(color: Colors.transparent),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(24),
-                    borderSide: BorderSide(color: Colors.redAccent, width: 2),
-                  ),
-                  border: OutlineInputBorder(
-                    borderRadius: BorderRadius.circular(24),
-                    borderSide: BorderSide(color: Colors.transparent),
-                  ),
-                ),
-                style: GoogleFonts.poppins(color: Colors.black87, fontSize: 16),
-              ),
-            ),
-          ),
+          inputSearch(),
           const SizedBox(height: kDefaultPaddin / 2),
           Expanded(
             child: PokemonMasonry(
               pokemones: pokemons,
+              isLoading: isLoadings,
               loadNextPage: loadNextPage,
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Padding inputSearch() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      child: Material(
+        elevation: 3,
+        borderRadius: BorderRadius.circular(24),
+        child: TextField(
+          onChanged: (value) {
+            ref.read(pokemonProvider.notifier).searchPokemonsMethod(value);
+          },
+          decoration: InputDecoration(
+            contentPadding: const EdgeInsets.symmetric(vertical: 16),
+            hintText: "Buscar Pokémon...",
+            hintStyle: GoogleFonts.poppins(
+              color: Colors.grey.shade500,
+              fontSize: 16,
+            ),
+            filled: true,
+            fillColor: Colors.white,
+            prefixIcon: Icon(
+              Icons.search_rounded,
+              color: Colors.redAccent,
+              size: 28,
+            ),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(24),
+              borderSide: BorderSide(color: Colors.transparent),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(24),
+              borderSide: BorderSide(color: Colors.redAccent, width: 2),
+            ),
+            border: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(24),
+              borderSide: BorderSide(color: Colors.transparent),
+            ),
+          ),
+          style: GoogleFonts.poppins(color: Colors.black87, fontSize: 16),
+        ),
       ),
     );
   }

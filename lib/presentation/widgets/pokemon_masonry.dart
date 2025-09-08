@@ -2,12 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_pokemon_app/domain/entities/pokemon.dart';
 import 'package:flutter_pokemon_app/presentation/screens/detail_screen.dart';
 import 'package:flutter_pokemon_app/presentation/widgets/item_card.dart';
+import 'package:flutter_pokemon_app/utils/pokemon_skeleton.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
 class PokemonMasonry extends StatefulWidget {
   final List<Pokemon> pokemones;
+  final bool isLoading;
   final VoidCallback? loadNextPage;
-  const PokemonMasonry({super.key, required this.pokemones, this.loadNextPage});
+
+  const PokemonMasonry({
+    super.key,
+    required this.pokemones,
+    this.loadNextPage,
+    required this.isLoading,
+  });
 
   @override
   State<PokemonMasonry> createState() => _PokemonMasonryState();
@@ -15,6 +23,7 @@ class PokemonMasonry extends StatefulWidget {
 
 class _PokemonMasonryState extends State<PokemonMasonry> {
   final ScrollController _controller = ScrollController();
+
   @override
   void initState() {
     super.initState();
@@ -44,6 +53,9 @@ class _PokemonMasonryState extends State<PokemonMasonry> {
         itemCount: widget.pokemones.length,
         crossAxisCount: 3,
         itemBuilder: (context, index) {
+          if (widget.isLoading) {
+            return const ItemCardSkeleton();
+          }
           return ItemCard(
             pokemon: widget.pokemones[index],
             press: () => Navigator.push(

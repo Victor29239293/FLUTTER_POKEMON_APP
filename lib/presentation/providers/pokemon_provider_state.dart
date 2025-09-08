@@ -4,7 +4,7 @@ import '../../domain/domain.dart';
 
 // * PROVIDER DE POKEMON
 final pokemonProvider = StateNotifierProvider<PokemonNotifier, List<Pokemon>>((
-  ref,
+  ref,                                                                                                                                                                                        
 ) {
   final fetchPokemons = ref.watch(pokemonProviderInstance).getPokemons;
   final searchPokemons = ref.watch(pokemonProviderInstance).searchPokemons;
@@ -15,8 +15,7 @@ final pokemonProvider = StateNotifierProvider<PokemonNotifier, List<Pokemon>>((
   );
 });
 
-typedef PokemonCallback =
-    Future<List<Pokemon>> Function({int limit, int offset});
+typedef PokemonCallback = Future<List<Pokemon>> Function({int limit, int offset});
 typedef SearchPokemonCallback = Future<List<Pokemon>> Function(String query);
 
 class PokemonNotifier extends StateNotifier<List<Pokemon>> {
