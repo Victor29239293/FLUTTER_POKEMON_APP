@@ -7,7 +7,7 @@ import '../../config/constants/constants.dart';
 class ProductTitleWithImage extends StatelessWidget {
   final String? customImageUrl;
   final Pokemon pokemon;
-  final double? imageSize; 
+  final double? imageSize;
 
   const ProductTitleWithImage({
     super.key,
@@ -25,9 +25,9 @@ class ProductTitleWithImage extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: kDefaultPaddin),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
-        children: <Widget>[
+        children: [
           Row(
-            children: <Widget>[
+            children: [
               Expanded(
                 child: Hero(
                   tag: "${pokemon.id}",
@@ -46,13 +46,20 @@ class ProductTitleWithImage extends StatelessWidget {
                               errorBuilder: (context, error, stackTrace) =>
                                   const Center(child: Icon(Icons.error)),
                             )
-                          : Image.network(
-                              customImageUrl ??
-                                  pokemon.sprites.other.dreamWorld.frontDefault,
-                              fit: BoxFit.contain,
-
-                              errorBuilder: (context, error, stackTrace) =>
-                                  const Center(child: Icon(Icons.error)),
+                          : SizedBox(
+                              height: 150, // fijo en px
+                              width: 150,
+                              child: Image.network(
+                                customImageUrl ??
+                                    pokemon
+                                        .sprites
+                                        .other
+                                        .dreamWorld
+                                        .frontDefault,
+                                fit: BoxFit.contain,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    const Center(child: Icon(Icons.error)),
+                              ),
                             ),
                     ),
                   ),

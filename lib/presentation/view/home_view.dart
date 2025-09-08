@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemon_app/config/constants/constants.dart';
-//   import 'package:flutter_pokemon_app/presentation/widgets/pokeball_loader.dart';
-// import 'package:flutter_pokemon_app/presentation/widgets/pokeball_loader.dart';
 
 import 'package:flutter_pokemon_app/presentation/widgets/pokemon_masonry.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -43,9 +41,7 @@ class HomeViewState extends ConsumerState<HomeView>
     super.build(context);
     final pokemons = ref.watch(pokemonProvider);
     final isLoadings = ref.watch(pokemonProvider.notifier).isLoading;
-    // if (isLoading) {
-    //   return const Scaffold(body: Center(child: PokeballLoader()));
-    // }
+
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(

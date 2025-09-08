@@ -60,8 +60,8 @@ class ItemCard extends StatelessWidget {
                   builder: (context, constraints) {
                     final cardWidth = MediaQuery.of(context).size.width - 32;
                     const cardHeight = 200.0;
-                    final maxImgWidth = cardWidth * 0.30; 
-                    final maxImgHeight = cardHeight * 0.45; 
+                    final maxImgWidth = cardWidth * 0.30;
+                    final maxImgHeight = cardHeight * 0.45;
                     final imageSize = maxImgWidth < maxImgHeight
                         ? maxImgWidth
                         : maxImgHeight;

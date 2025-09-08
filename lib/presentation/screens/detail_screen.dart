@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_pokemon_app/config/constants/constants.dart';
+import 'package:flutter_pokemon_app/infrastructure/datasource/favorite_pokemon_datasource_impl.dart';
 import 'package:flutter_pokemon_app/presentation/widgets/pokemon_description.dart';
 import 'package:flutter_pokemon_app/presentation/widgets/pokemon_title_image.dart';
 import 'package:flutter_pokemon_app/presentation/widgets/pokemon_type.dart';
 import 'package:flutter_pokemon_app/utils/pokemon_type_utilis.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-// // import 'package:flutter_svg/svg.dart';
-
-// import '../../config/config.dart';
 import '../../domain/domain.dart';
 
 class DetailsScreen extends StatefulWidget {
@@ -21,12 +19,22 @@ class DetailsScreen extends StatefulWidget {
 
 class _DetailsScreenState extends State<DetailsScreen> {
   late String selectedImageUrl;
+  final FavoritePokemonDatasourceImpl favoritesDatasource =
+      FavoritePokemonDatasourceImpl();
+  bool isFavorite = false;
 
   @override
   void initState() {
     super.initState();
-    // Inicializar con la imagen frontal normal
     selectedImageUrl = widget.pokemon.sprites.other.dreamWorld.frontDefault;
+
+    favoritesDatasource
+        .isFavoritePokemon(widget.pokemon.id)
+        .then((value) {
+      setState(() {
+        isFavorite = value;
+      });
+    });
   }
 
   Widget build(BuildContext context) {
@@ -46,8 +54,21 @@ class _DetailsScreenState extends State<DetailsScreen> {
         ),
         actions: <Widget>[
           IconButton(
-            onPressed: () {},
-            icon: Icon(Icons.favorite_border_rounded, color: Colors.white),
+            onPressed: () async{
+              if(isFavorite){
+                await favoritesDatasource.removeFavoritePokemon(widget.pokemon.id);
+                setState(() {
+                  isFavorite = false;
+                });
+              } else {
+                await favoritesDatasource.addFavoritePokemon(widget.pokemon.id);
+                setState(() {
+                  isFavorite = true;
+                });
+              }
+
+            },
+            icon: Icon( isFavorite ? Icons.favorite : Icons.favorite_border_rounded, color: Colors.white),
           ),
           const SizedBox(width: kDefaultPaddin / 2),
         ],

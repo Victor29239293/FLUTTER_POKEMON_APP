@@ -1,6 +1,7 @@
 import 'package:flutter_pokemon_app/presentation/providers/providers.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import '../../domain/domain.dart';
+import '../../../domain/domain.dart';
+
 
 // * PROVIDER DE POKEMON
 final pokemonProvider = StateNotifierProvider<PokemonNotifier, List<Pokemon>>((

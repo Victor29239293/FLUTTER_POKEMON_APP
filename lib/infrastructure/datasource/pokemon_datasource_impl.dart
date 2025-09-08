@@ -44,9 +44,15 @@ class PokemonDatasourceImpl implements PokemonDataSource {
   }
 
   @override
-  Future<Pokemon> getPokemonById(int id) {
-    // TODO: implement getPokemonById
-    throw UnimplementedError();
+  Future<Pokemon> getPokemonById(int id) async {
+    try {
+      final response = await dio.get('pokemon/$id');
+      final pokemonResult = PokemonResult.fromJson(response.data);
+      final pokemon = PokemonMapper.toEntity(pokemonResult);
+      return pokemon;
+    } catch (e) {
+      throw Exception('Error al obtener Pokémon con id $id: $e');
+    }
   }
 
   @override
@@ -57,11 +63,9 @@ class PokemonDatasourceImpl implements PokemonDataSource {
 
   @override
   Future<List<Pokemon>> searchPokemons(String query) async {
-    
     final response = await dio.get('pokemon', queryParameters: {'limit': 100});
     final results = response.data['results'] as List;
 
-  
     final filtered = results.where((item) {
       final name = item['name'] as String;
       return name.toLowerCase().contains(query.toLowerCase());

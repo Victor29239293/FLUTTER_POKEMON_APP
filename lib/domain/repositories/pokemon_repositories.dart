@@ -5,4 +5,5 @@ abstract class PokemonRepository {
   Future<Pokemon> getPokemonById(int id);
   Future<List<Pokemon>> getPokemonsByType(String type);
   Future<List<Pokemon>> searchPokemons(String query);
+   
 }

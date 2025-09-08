@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-
+import '../view/view.dart';
 import '../widgets/custom_bottom_navigator.dart';
-import 'home_view.dart';
+
 
 class HomeScreen extends StatefulWidget {
   final int pageIndex;
@@ -30,9 +30,9 @@ class _HomeScreenState extends State<HomeScreen>
 
   final viewsPages = const <Widget>[
     HomeView(),
-    Placeholder(),
-    Placeholder(),
-    Placeholder(),
+    ExplorarView(),
+    FavoriteView(),
+    
 
   ];
 

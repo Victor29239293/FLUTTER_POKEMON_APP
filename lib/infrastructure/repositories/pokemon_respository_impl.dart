@@ -24,4 +24,6 @@ class PokemonRepositoryImpl implements PokemonRepository {
   Future<List<Pokemon>> searchPokemons(String query) {
     return datasource.searchPokemons(query);
   }
+
+  
 }
