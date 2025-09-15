@@ -1,3 +1,48 @@
-# flutter_pokemon_app
+# Pokémon App 🎮  
 
-A new Flutter project.
+Aplicación desarrollada en **Flutter** que consume la [PokeAPI](https://pokeapi.co/) para mostrar información de Pokémon en tiempo real.  
+
+<p align="center">
+  <img src="https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png" alt="PokeAPI Logo" width="150"/>
+</p>
+
+---
+
+## ✨ Características
+- 📋 Listado de Pokémon con paginación infinita.  
+- 🔎 Búsqueda de Pokémon por nombre o ID.  
+- 📊 Vista detallada de cada Pokémon:
+  - Nombre, ID y tipos.  
+  - Estadísticas base (HP, Ataque, Defensa, etc.).  
+  - Habilidades y movimientos.  
+  - Sprites oficiales.  
+- ⭐ Gestión de favoritos.  
+- 🎨 Interfaz amigable, responsiva y moderna.  
+
+---
+
+## 🛠️ Tecnologías utilizadas
+- [Flutter](https://flutter.dev/)  
+- [Dart](https://dart.dev/)  
+- [PokeAPI](https://pokeapi.co/)  
+- State Management: `Riverpod` / `Provider` *(ajusta según lo que uses)*  
+
+---
+
+## Screenshots
+🏠 Pantalla principal
+<img src="assets/screenshots/homeview.png" alt="Home Screen" width="300"/>
+
+🔍 Detalle de Pokémon
+
+<img src="assets/screenshots/detail_pokemon.png" alt="Home Screen" width="300"/>
+
+🔍 Favoritos
+
+<img src="assets/screenshots/favoriteview.png" alt="Home Screen" width="300"/>
+
+
+## License
+
+[MIT](https://choosealicense.com/licenses/mit/)
+
