@@ -1,10 +1,11 @@
+<p align="center">
+  <img src="https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png" alt="PokeAPI Logo" width="150"/>
+</p> 
+
+---
 # Pokémon App 🎮  
 
 Aplicación desarrollada en **Flutter** que consume la [PokeAPI](https://pokeapi.co/) para mostrar información de Pokémon en tiempo real.  
-
-<p align="center">
-  <img src="https://raw.githubusercontent.com/PokeAPI/media/master/logo/pokeapi_256.png" alt="PokeAPI Logo" width="150"/>
-</p>
 
 ---
 
@@ -25,7 +26,6 @@ Aplicación desarrollada en **Flutter** que consume la [PokeAPI](https://pokeapi
 - [Flutter](https://flutter.dev/)  
 - [Dart](https://dart.dev/)  
 - [PokeAPI](https://pokeapi.co/)  
-- State Management: `Riverpod` / `Provider` *(ajusta según lo que uses)*  
 
 ---
 
