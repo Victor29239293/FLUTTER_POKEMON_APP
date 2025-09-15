@@ -6,6 +6,7 @@ import 'package:flutter_pokemon_app/presentation/widgets/pokemon_title_image.dar
 import 'package:flutter_pokemon_app/presentation/widgets/pokemon_type.dart';
 import 'package:flutter_pokemon_app/utils/pokemon_type_utilis.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:just_audio/just_audio.dart';
 import '../../domain/domain.dart';
 
 class DetailsScreen extends StatefulWidget {
@@ -22,19 +23,37 @@ class _DetailsScreenState extends State<DetailsScreen> {
   final FavoritePokemonDatasourceImpl favoritesDatasource =
       FavoritePokemonDatasourceImpl();
   bool isFavorite = false;
+  bool isPlaying = false;
+  final player = AudioPlayer();
 
   @override
   void initState() {
     super.initState();
     selectedImageUrl = widget.pokemon.sprites.other.dreamWorld.frontDefault;
 
-    favoritesDatasource
-        .isFavoritePokemon(widget.pokemon.id)
-        .then((value) {
+    favoritesDatasource.isFavoritePokemon(widget.pokemon.id).then((value) {
       setState(() {
         isFavorite = value;
       });
     });
+    player.setUrl(
+      'https://raw.githubusercontent.com/PokeAPI/cries/main/cries/pokemon/latest/${widget.pokemon.id}.ogg',
+    );
+    player.playerStateStream.listen((state) {
+      if (state.processingState == ProcessingState.completed) {
+        player.pause();
+        setState(() {
+          isPlaying = false;
+        });
+        player.seek(Duration.zero); // Opcional: vuelve al inicio
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    player.dispose();
+    super.dispose();
   }
 
   Widget build(BuildContext context) {
@@ -54,9 +73,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
         ),
         actions: <Widget>[
           IconButton(
-            onPressed: () async{
-              if(isFavorite){
-                await favoritesDatasource.removeFavoritePokemon(widget.pokemon.id);
+            onPressed: () async {
+              if (isFavorite) {
+                await favoritesDatasource.removeFavoritePokemon(
+                  widget.pokemon.id,
+                );
                 setState(() {
                   isFavorite = false;
                 });
@@ -66,9 +87,11 @@ class _DetailsScreenState extends State<DetailsScreen> {
                   isFavorite = true;
                 });
               }
-
             },
-            icon: Icon( isFavorite ? Icons.favorite : Icons.favorite_border_rounded, color: Colors.white),
+            icon: Icon(
+              isFavorite ? Icons.favorite : Icons.favorite_border_rounded,
+              color: Colors.white,
+            ),
           ),
           const SizedBox(width: kDefaultPaddin / 2),
         ],
@@ -102,13 +125,49 @@ class _DetailsScreenState extends State<DetailsScreen> {
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              Text(
-                                widget.pokemon.name.toUpperCase(),
-                                style: Theme.of(context).textTheme.titleLarge!
-                                    .copyWith(
-                                      color: const Color.fromARGB(255, 0, 0, 0),
-                                      fontWeight: FontWeight.bold,
+                              Row(
+                                mainAxisAlignment:
+                                    MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    widget.pokemon.name.toUpperCase(),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .titleLarge!
+                                        .copyWith(
+                                          color: const Color.fromARGB(
+                                            255,
+                                            0,
+                                            0,
+                                            0,
+                                          ),
+                                          fontWeight: FontWeight.bold,
+                                        ),
+                                  ),
+                                  IconButton(
+                                    onPressed: () {
+                                      if (isPlaying) {
+                                        player.pause();
+                                        setState(() {
+                                          isPlaying = false;
+                                        });
+                                      } else {
+                                        player.play();
+                                        setState(() {
+                                          isPlaying = true;
+                                        });
+                                      }
+                                    },
+                                    icon: Icon(
+                                      isPlaying
+                                          ? Icons.pause_circle
+                                          :
+                                      Icons.play_circle,
+                                      color: Colors.grey.shade900,
+                                      size: 32,
                                     ),
+                                  ),
+                                ],
                               ),
 
                               const SizedBox(height: kDefaultPaddin),
@@ -143,7 +202,6 @@ class _DetailsScreenState extends State<DetailsScreen> {
                       ],
                     ),
                   ),
-                  // Pasar la imagen seleccionada al widget de imagen principal
                   ProductTitleWithImage(
                     pokemon: widget.pokemon,
                     customImageUrl: selectedImageUrl,
