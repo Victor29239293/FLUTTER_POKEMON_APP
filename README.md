@@ -31,7 +31,8 @@ Aplicación desarrollada en **Flutter** que consume la [PokeAPI](https://pokeapi
 
 ## Screenshots
 <p align="center"> <img src="assets/screenshots/homeview.png" alt="Home Screen" width="200" style="margin: 10px;"/> <img src="assets/screenshots/detail_pokemon.png" alt="Detail Screen" width="200" style="margin: 10px;"/> <img src="assets/screenshots/favoriteview.png" alt="Favorites Screen" width="200" style="margin: 10px;"/> </p>
-## License
+
+# License
 
 [MIT](https://choosealicense.com/licenses/mit/)
 
