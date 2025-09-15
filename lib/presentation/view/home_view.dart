@@ -41,7 +41,15 @@ class HomeViewState extends ConsumerState<HomeView>
     super.build(context);
     final pokemons = ref.watch(pokemonProvider);
     final isLoadings = ref.watch(pokemonProvider.notifier).isLoading;
-
+    // if (pokemons.isEmpty && isLoadings) {
+    //   return const Center(
+    //     child: SizedBox(
+    //       width: 50,
+    //       height: 50,
+    //       child: CircularProgressIndicator(strokeWidth: 3),
+    //     ),
+    //   );
+    // }
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(

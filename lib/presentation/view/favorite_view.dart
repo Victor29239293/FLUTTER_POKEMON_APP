@@ -1,7 +1,9 @@
 import 'dart:math' as math;
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+// import 'package:flutter_pokemon_app/presentation/providers/pokemon/pokemon_provider_state.dart';
 import 'package:flutter_pokemon_app/presentation/widgets/item_card.dart';
+import 'package:flutter_pokemon_app/utils/pokemon_skeleton.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:flutter_pokemon_app/domain/domain.dart';
 import 'package:flutter_pokemon_app/presentation/providers/favorite_pokemon/favorite_pokemon_intance.dart';
@@ -16,47 +18,29 @@ class FavoriteView extends ConsumerWidget {
     final getFavorites = ref
         .watch(favoritePokemonProviderInstance)
         .getFavoritePokemons;
-
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.redAccent, // Color asociado a "favoritos"
+        backgroundColor: Colors.red,
         elevation: 0,
         centerTitle: true,
-        title: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: const [
-            Icon(Icons.favorite, color: Colors.white, size: 28),
-            SizedBox(width: 8),
-            Text(
-              'Favorites',
-              style: TextStyle(
-                color: Colors.white,
-                fontWeight: FontWeight.bold,
-                fontSize: 24,
-              ),
-            ),
-          ],
+        title: const Text(
+          'Favoritos',
+          style: TextStyle(
+            color: Colors.white,
+            fontWeight: FontWeight.bold,
+            fontSize: 24,
+          ),
         ),
       ),
-
       body: FutureBuilder<List<Pokemon>>(
         future: getFavorites(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: SizedBox(
-                width: 50,
-                height: 50,
-                child: CircularProgressIndicator(strokeWidth: 3),
-              ),
-            );
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return Center(child: CircularProgressIndicator());
           } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
             return _buildEmptyState();
           } else {
             return FavoritePokemon(pokemones: snapshot.data!, isLoading: false);
-            // return _buildFavoritesList(snapshot.data!, ref);
           }
         },
       ),
@@ -129,6 +113,7 @@ class _FavoritePokemonState extends State<FavoritePokemon> {
   @override
   Widget build(BuildContext context) {
     final random = math.Random();
+
     return Padding(
       padding: EdgeInsetsGeometry.symmetric(horizontal: 10),
       child: MasonryGridView.count(
@@ -139,7 +124,7 @@ class _FavoritePokemonState extends State<FavoritePokemon> {
         crossAxisCount: 3,
         itemBuilder: (context, index) {
           if (widget.isLoading) {
-            return Center(child: CircularProgressIndicator());
+            return Center(child: ItemCardSkeleton());
           }
           return FadeInUp(
             from: random.nextInt(100) + 80,

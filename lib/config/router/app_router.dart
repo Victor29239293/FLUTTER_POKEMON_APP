@@ -1,19 +1,20 @@
 import 'package:go_router/go_router.dart';
-
 import '../../presentation/screens/home_screen.dart';
+import '../../presentation/screens/splash_screen.dart';
 
 final appRouter = GoRouter(
-  initialLocation: '/home/0',
+  initialLocation: '/splash', // 👈 Inicia en splash
   routes: [
+    GoRoute(
+      path: '/splash',
+      builder: (context, state) => const SplashScreen(),
+    ),
     GoRoute(
       path: '/home/:page',
       builder: (context, state) {
         final pageIndex = int.parse(state.pathParameters['page'] ?? '0');
         return HomeScreen(pageIndex: pageIndex);
       },
-      routes: [],
     ),
-    // Define your app routes here
-    GoRoute(path: '/', redirect: (_, __) => '/home/0'),
   ],
 );
